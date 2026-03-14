@@ -51,7 +51,7 @@ function PostAuthorAvatar({
 // ─── Report modal ─────────────────────────────────────────────────────────────
 function ReportPostModal({ postId, onClose }: { postId: string; onClose: () => void }) {
   const { user } = useAuth()
-  const [reason, setReason] = useState(REPORT_REASONS[0])
+  const [reason, setReason] = useState<typeof REPORT_REASONS[number]>(REPORT_REASONS[0])
   const [submitting, setSubmitting] = useState(false)
 
   const submit = async () => {
@@ -105,9 +105,7 @@ function ReportPostModal({ postId, onClose }: { postId: string; onClose: () => v
           ))}
         </div>
         <div className="flex gap-2 justify-end">
-          <button onClick={onClose} className="btn btn-secondary btn-sm">
-            Cancel
-          </button>
+          <button onClick={onClose} className="btn btn-secondary btn-sm">Cancel</button>
           <button
             onClick={submit}
             disabled={submitting}
@@ -127,20 +125,19 @@ export default function PostPage() {
   const navigate = useNavigate()
   const { user } = useAuth()
 
-  const [post,       setPost]       = useState<PostWithAuthor | null>(null)
-  const [community,  setCommunity]  = useState<CommunityRow | null>(null)
-  const [replies,    setReplies]    = useState<ReplyWithChildren[]>([])
-  const [loading,    setLoading]    = useState(true)
-  const [menuOpen,   setMenuOpen]   = useState(false)
-  const [reporting,  setReporting]  = useState(false)
-  const [deleting,   setDeleting]   = useState(false)
-  const [notFound,   setNotFound]   = useState(false)
+  const [post,      setPost]      = useState<PostWithAuthor | null>(null)
+  const [community, setCommunity] = useState<CommunityRow | null>(null)
+  const [replies,   setReplies]   = useState<ReplyWithChildren[]>([])
+  const [loading,   setLoading]   = useState(true)
+  const [menuOpen,  setMenuOpen]  = useState(false)
+  const [reporting, setReporting] = useState(false)
+  const [deleting,  setDeleting]  = useState(false)
+  const [notFound,  setNotFound]  = useState(false)
 
   const isAuthor         = user?.id === post?.author_id
   const isCommunityOwner = user?.id === community?.owner_id
   const canModerate      = isAuthor || isCommunityOwner
 
-  // ── Fetch post + replies + community ────────────────────────────────────────
   useEffect(() => {
     if (!postId) return
     let cancelled = false
@@ -148,48 +145,47 @@ export default function PostPage() {
     const load = async () => {
       setLoading(true)
       try {
-        // 1. Fetch post (via view for author info)
+        // 1. Fetch post
         const { data: postData, error: postErr } = await supabase
           .from('posts_with_authors')
           .select('*')
           .eq('id', postId)
           .single()
 
-        if (postErr || !postData) { setNotFound(true); return }
+        if (postErr || !postData) { setNotFound(true); setLoading(false); return }
         if (cancelled) return
-        setPost(postData)
+        setPost(postData as PostWithAuthor)
 
         // 2. Fetch community
         const { data: commData } = await supabase
           .from('communities')
           .select('*')
-          .eq('id', postData.community_id)
+          .eq('id', (postData as PostWithAuthor).community_id)
           .single()
-        if (!cancelled && commData) setCommunity(commData)
+        if (!cancelled && commData) setCommunity(commData as CommunityRow)
 
-        // 3. Fetch replies (via view for author info)
+        // 3. Fetch replies
         const { data: repliesData, error: repliesErr } = await supabase
           .from('replies_with_authors')
           .select('*')
           .eq('post_id', postId)
           .order('created_at', { ascending: true })
-
         if (repliesErr) throw repliesErr
         if (cancelled) return
 
-        // 4. If user is logged in, fetch which replies they've voted on
+        // 4. Fetch user votes
         let votedSet = new Set<string>()
         if (user && repliesData && repliesData.length > 0) {
-          const replyIds = repliesData.map((r) => r.id)
+          const replyIds = (repliesData as { id: string }[]).map((r) => r.id)
           const { data: votes } = await supabase
             .from('votes')
             .select('reply_id')
             .eq('user_id', user.id)
             .in('reply_id', replyIds)
-          votedSet = new Set(votes?.map((v) => v.reply_id) ?? [])
+          votedSet = new Set((votes as { reply_id: string }[] | null)?.map((v) => v.reply_id) ?? [])
         }
 
-        const enriched: ReplyWithChildren[] = (repliesData ?? []).map((r) => ({
+        const enriched: ReplyWithChildren[] = ((repliesData ?? []) as ReplyWithChildren[]).map((r) => ({
           ...r,
           children: [],
           user_has_voted: votedSet.has(r.id),
@@ -209,7 +205,6 @@ export default function PostPage() {
     return () => { cancelled = true }
   }, [postId, user?.id, navigate])
 
-  // ── Delete post ─────────────────────────────────────────────────────────────
   const handleDelete = async () => {
     if (!post || !window.confirm('Delete this post? This cannot be undone.')) return
     setDeleting(true)
@@ -228,14 +223,11 @@ export default function PostPage() {
     }
   }
 
-  // ── Replies change handler ───────────────────────────────────────────────────
   const handleRepliesChange = useCallback((updated: ReplyWithChildren[]) => {
     setReplies(updated)
-    // Reflect reply count change on local post state
     setPost((p) => p ? { ...p, reply_count: updated.length } : p)
   }, [])
 
-  // ── Not found ───────────────────────────────────────────────────────────────
   if (notFound) {
     return (
       <div className="page-container flex flex-col items-center justify-center min-h-[50vh] gap-4">
@@ -251,14 +243,10 @@ export default function PostPage() {
     )
   }
 
-  // ── Loading ─────────────────────────────────────────────────────────────────
   if (loading) {
     return (
       <div className="page-container max-w-3xl">
-        {/* Breadcrumb skeleton */}
         <div className="skeleton h-4 w-48 rounded mb-6" />
-
-        {/* Post card skeleton */}
         <div className="card p-6 mb-6 space-y-4">
           <div className="flex items-center gap-3">
             <div className="skeleton w-10 h-10 rounded-full shrink-0" />
@@ -278,8 +266,6 @@ export default function PostPage() {
             <div className="skeleton h-7 w-16 rounded" />
           </div>
         </div>
-
-        {/* Comments skeleton */}
         <CommentListSkeleton />
       </div>
     )
@@ -292,7 +278,6 @@ export default function PostPage() {
 
   return (
     <div className="page-container max-w-3xl">
-
       {/* ── Breadcrumb ───────────────────────────────────────────────────────── */}
       <nav className="flex items-center gap-1.5 text-sm text-text-secondary dark:text-gray-400 mb-5 flex-wrap">
         <Link
@@ -321,8 +306,7 @@ export default function PostPage() {
 
       {/* ── Post card ────────────────────────────────────────────────────────── */}
       <article className="card p-5 sm:p-6 mb-6 animate-fade-in">
-
-        {/* ── Author row ───────────────────────────────────────────────────── */}
+        {/* Author row */}
         <div className="flex items-start justify-between gap-3 mb-4">
           <div className="flex items-center gap-3">
             <PostAuthorAvatar
@@ -335,9 +319,7 @@ export default function PostPage() {
                   {post.author_username}
                 </span>
                 {post.author_reputation > 0 && (
-                  <span className="badge-rep text-[11px]">
-                    ⭐ {post.author_reputation} rep
-                  </span>
+                  <span className="badge-rep text-[11px]">⭐ {post.author_reputation} rep</span>
                 )}
                 {isAuthor && (
                   <span className="badge-primary text-[11px]">Author</span>
@@ -345,9 +327,7 @@ export default function PostPage() {
               </div>
               <div className="flex items-center gap-1.5 text-xs text-text-secondary dark:text-gray-400 mt-0.5">
                 <Clock className="w-3 h-3" />
-                <time dateTime={post.created_at} title={fullDate}>
-                  {timeAgo}
-                </time>
+                <time dateTime={post.created_at} title={fullDate}>{timeAgo}</time>
                 {community && (
                   <>
                     <span>·</span>
@@ -371,12 +351,9 @@ export default function PostPage() {
                 onClick={() => setMenuOpen((o) => !o)}
                 className="btn-ghost btn btn-sm w-8 h-8 p-0 rounded-full"
                 aria-label="Post options"
-                aria-haspopup="true"
-                aria-expanded={menuOpen}
               >
                 <MoreHorizontal className="w-4 h-4" />
               </button>
-
               {menuOpen && (
                 <div className="absolute right-0 top-9 w-44 card shadow-card-hover py-1 z-20 animate-fade-in">
                   {canModerate && (
@@ -407,21 +384,20 @@ export default function PostPage() {
           )}
         </div>
 
-        {/* ── Title ────────────────────────────────────────────────────────── */}
+        {/* Title */}
         <h1 className="text-xl sm:text-2xl font-bold text-text-primary dark:text-dark-text leading-snug mb-4">
           {post.title}
         </h1>
 
-        {/* ── Body ─────────────────────────────────────────────────────────── */}
+        {/* Body */}
         {post.body && (
           <div className="prose-sm text-text-primary dark:text-dark-text leading-relaxed whitespace-pre-wrap break-words mb-5 border-l-2 border-border dark:border-gray-700 pl-4">
             {post.body}
           </div>
         )}
 
-        {/* ── Stats footer ─────────────────────────────────────────────────── */}
+        {/* Stats */}
         <div className="flex items-center gap-5 pt-4 border-t border-border dark:border-gray-700">
-          {/* Upvotes — read-only display on the post itself */}
           <div
             className={clsx(
               'flex items-center gap-1.5 text-sm font-medium px-3 py-1.5 rounded-full',
@@ -429,7 +405,6 @@ export default function PostPage() {
                 ? 'bg-blue-50 text-primary dark:bg-blue-900/20 dark:text-dark-primary'
                 : 'bg-gray-100 text-text-secondary dark:bg-gray-800 dark:text-gray-400'
             )}
-            aria-label={`${post.upvotes} upvotes on this post`}
           >
             <ChevronUp className="w-4 h-4" />
             <span className="tabular-nums">{post.upvotes}</span>
@@ -437,13 +412,11 @@ export default function PostPage() {
               {post.upvotes === 1 ? 'upvote' : 'upvotes'}
             </span>
           </div>
-
           <div className="flex items-center gap-1.5 text-sm text-text-secondary dark:text-gray-400">
             <MessageSquare className="w-4 h-4" />
             <span className="tabular-nums">{replies.length}</span>
             <span>{replies.length === 1 ? 'reply' : 'replies'}</span>
           </div>
-
           <time
             dateTime={post.created_at}
             className="ml-auto text-xs text-text-secondary dark:text-gray-500 hidden sm:block"
@@ -462,12 +435,10 @@ export default function PostPage() {
         onRepliesChange={handleRepliesChange}
       />
 
-      {/* ── Report modal ──────────────────────────────────────────────────────── */}
       {reporting && (
         <ReportPostModal postId={post.id} onClose={() => setReporting(false)} />
       )}
 
-      {/* ── Close options menu on outside click ──────────────────────────────── */}
       {menuOpen && (
         <div
           className="fixed inset-0 z-10"

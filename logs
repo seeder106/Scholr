@@ -1,0 +1,73 @@
+21:44:04.014 Running build in Washington, D.C., USA (East) – iad1
+21:44:04.014 Build machine configuration: 2 cores, 8 GB
+21:44:04.128 Cloning github.com/seeder106/Scholr (Branch: main, Commit: e348925)
+21:44:04.129 Previous build caches not available.
+21:44:04.320 Cloning completed: 191.000ms
+21:44:04.882 Running "vercel build"
+21:44:05.486 Vercel CLI 50.32.4
+21:44:06.046 Running "install" command: `npm install`...
+21:44:08.886 npm warn deprecated rimraf@3.0.2: Rimraf versions prior to v4 are no longer supported
+21:44:09.031 npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
+21:44:09.239 npm warn deprecated glob@7.2.3: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
+21:44:09.416 npm warn deprecated @humanwhocodes/config-array@0.13.0: Use @eslint/config-array instead
+21:44:09.451 npm warn deprecated @humanwhocodes/object-schema@2.0.3: Use @eslint/object-schema instead
+21:44:11.482 npm warn deprecated eslint@8.57.1: This version is no longer supported. Please see https://eslint.org/version-support for other options.
+21:44:13.197 
+21:44:13.198 added 268 packages, and audited 269 packages in 7s
+21:44:13.199 
+21:44:13.199 58 packages are looking for funding
+21:44:13.199   run `npm fund` for details
+21:44:13.205 
+21:44:13.206 2 moderate severity vulnerabilities
+21:44:13.206 
+21:44:13.207 To address all issues (including breaking changes), run:
+21:44:13.207   npm audit fix --force
+21:44:13.207 
+21:44:13.207 Run `npm audit` for details.
+21:44:13.644 
+21:44:13.644 > scholr@0.1.0 build
+21:44:13.645 > tsc && vite build
+21:44:13.645 
+21:44:18.465 src/components/CommentList.tsx(120,13): error TS2740: Type '{ author_username: string; author_avatar: string | null; author_avatar_config: AvatarConfig | null; author_reputation: number; children: never[]; user_has_voted: false; }' is missing the following properties from type 'ReplyWithChildren': id, post_id, author_id, parent_id, and 4 more.
+21:44:18.467 src/context/AuthContext.tsx(60,18): error TS2345: Argument of type '{}' is not assignable to parameter of type 'SetStateAction<{ id: string; username: string; full_name: string | null; bio: string | null; avatar_url: string | null; avatar_config: { skin: string; hair: string; outfit: string; accessory: string | null; } | null; reputation: number; created_at: string; updated_at: string; } | null>'.
+21:44:18.468 src/pages/Communities.tsx(100,33): error TS2339: Property 'id' does not exist on type '{}'.
+21:44:18.468 src/pages/Communities.tsx(105,45): error TS2339: Property 'name' does not exist on type '{}'.
+21:44:18.468 src/pages/Communities.tsx(106,17): error TS2345: Argument of type '{ is_member: true; member_role: "owner"; }' is not assignable to parameter of type 'CommunityWithMembership'.
+21:44:18.469   Type '{ is_member: true; member_role: "owner"; }' is missing the following properties from type 'CommunityWithMembership': id, name, slug, description, and 5 more.
+21:44:18.469 src/pages/Communities.tsx(273,24): error TS2345: Argument of type '{ is_member: false; member_role: null; }[]' is not assignable to parameter of type 'SetStateAction<CommunityWithMembership[]>'.
+21:44:18.470   Type '{ is_member: false; member_role: null; }[]' is not assignable to type 'CommunityWithMembership[]'.
+21:44:18.470     Type '{ is_member: false; member_role: null; }' is missing the following properties from type 'CommunityWithMembership': id, name, slug, description, and 5 more.
+21:44:18.470 src/pages/Communities.tsx(286,9): error TS2345: Argument of type '{ is_member: boolean; member_role: "owner" | "moderator" | "member" | null | undefined; }[]' is not assignable to parameter of type 'SetStateAction<CommunityWithMembership[]>'.
+21:44:18.470   Type '{ is_member: boolean; member_role: "owner" | "moderator" | "member" | null | undefined; }[]' is not assignable to type 'CommunityWithMembership[]'.
+21:44:18.470     Type '{ is_member: boolean; member_role: "owner" | "moderator" | "member" | null | undefined; }' is missing the following properties from type 'CommunityWithMembership': id, name, slug, description, and 5 more.
+21:44:18.470 src/pages/Communities.tsx(288,38): error TS2339: Property 'id' does not exist on type '{}'.
+21:44:18.470 src/pages/Communities.tsx(289,41): error TS2339: Property 'id' does not exist on type '{}'.
+21:44:18.471 src/pages/CommunityPage.tsx(241,22): error TS2345: Argument of type '{}' is not assignable to parameter of type 'SetStateAction<{ id: string; name: string; slug: string; description: string | null; icon_url: string | null; owner_id: string; is_private: boolean; member_count: number; created_at: string; } | null>'.
+21:44:18.473 src/pages/CommunityPage.tsx(242,18): error TS2345: Argument of type '{}[]' is not assignable to parameter of type 'SetStateAction<{ id: string; community_id: string; author_id: string; title: string; body: string | null; upvotes: number; reply_count: number; is_deleted: boolean; created_at: string; updated_at: string; author_username: string; author_avatar: string | null; author_avatar_config: { ...; } | null; author_reputation:...'.
+21:44:18.474   Type '{}[]' is not assignable to type '{ id: string; community_id: string; author_id: string; title: string; body: string | null; upvotes: number; reply_count: number; is_deleted: boolean; created_at: string; updated_at: string; author_username: string; author_avatar: string | null; author_avatar_config: { ...; } | null; author_reputation: number; }[]'.
+21:44:18.474     Type '{}' is missing the following properties from type '{ id: string; community_id: string; author_id: string; title: string; body: string | null; upvotes: number; reply_count: number; is_deleted: boolean; created_at: string; updated_at: string; author_username: string; author_avatar: string | null; author_avatar_config: { ...; } | null; author_reputation: number; }': id, community_id, author_id, title, and 10 more.
+21:44:18.474 src/pages/CommunityPage.tsx(254,41): error TS2345: Argument of type '{} | null' is not assignable to parameter of type 'SetStateAction<{ community_id: string; user_id: string; role: "owner" | "moderator" | "member"; joined_at: string; } | null>'.
+21:44:18.475   Type '{}' is not assignable to type 'SetStateAction<{ community_id: string; user_id: string; role: "owner" | "moderator" | "member"; joined_at: string; } | null>'.
+21:44:18.475 src/pages/CommunityPage.tsx(293,16): error TS2345: Argument of type '(prev: { id: string; community_id: string; author_id: string; title: string; body: string | null; upvotes: number; reply_count: number; is_deleted: boolean; created_at: string; updated_at: string; author_username: string; author_avatar: string | null; author_avatar_config: { ...; } | null; author_reputation: number;...' is not assignable to parameter of type 'SetStateAction<{ id: string; community_id: string; author_id: string; title: string; body: string | null; upvotes: number; reply_count: number; is_deleted: boolean; created_at: string; updated_at: string; author_username: string; author_avatar: string | null; author_avatar_config: { ...; } | null; author_reputation:...'.
+21:44:18.478   Type '(prev: { id: string; community_id: string; author_id: string; title: string; body: string | null; upvotes: number; reply_count: number; is_deleted: boolean; created_at: string; updated_at: string; author_username: string; author_avatar: string | null; author_avatar_config: { ...; } | null; author_reputation: number;...' is not assignable to type '(prevState: { id: string; community_id: string; author_id: string; title: string; body: string | null; upvotes: number; reply_count: number; is_deleted: boolean; created_at: string; updated_at: string; author_username: string; author_avatar: string | null; author_avatar_config: { ...; } | null; author_reputation: nu...'.
+21:44:18.479     Type '{}[]' is not assignable to type '{ id: string; community_id: string; author_id: string; title: string; body: string | null; upvotes: number; reply_count: number; is_deleted: boolean; created_at: string; updated_at: string; author_username: string; author_avatar: string | null; author_avatar_config: { ...; } | null; author_reputation: number; }[]'.
+21:44:18.480       Type '{}' is missing the following properties from type '{ id: string; community_id: string; author_id: string; title: string; body: string | null; upvotes: number; reply_count: number; is_deleted: boolean; created_at: string; updated_at: string; author_username: string; author_avatar: string | null; author_avatar_config: { ...; } | null; author_reputation: number; }': id, community_id, author_id, title, and 10 more.
+21:44:18.480 src/pages/CommunityPage.tsx(314,31): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+21:44:18.481   Type 'undefined' is not assignable to type 'string'.
+21:44:18.481 src/pages/CommunityPage.tsx(322,11): error TS2345: Argument of type '{}[]' is not assignable to parameter of type 'SetStateAction<{ id: string; community_id: string; author_id: string; title: string; body: string | null; upvotes: number; reply_count: number; is_deleted: boolean; created_at: string; updated_at: string; author_username: string; author_avatar: string | null; author_avatar_config: { ...; } | null; author_reputation:...'.
+21:44:18.481   Type '{}[]' is not assignable to type '{ id: string; community_id: string; author_id: string; title: string; body: string | null; upvotes: number; reply_count: number; is_deleted: boolean; created_at: string; updated_at: string; author_username: string; author_avatar: string | null; author_avatar_config: { ...; } | null; author_reputation: number; }[]'.
+21:44:18.482     Type '{}' is missing the following properties from type '{ id: string; community_id: string; author_id: string; title: string; body: string | null; upvotes: number; reply_count: number; is_deleted: boolean; created_at: string; updated_at: string; author_username: string; author_avatar: string | null; author_avatar_config: { ...; } | null; author_reputation: number; }': id, community_id, author_id, title, and 10 more.
+21:44:18.482 src/pages/CommunityPage.tsx(360,21): error TS2345: Argument of type '{}' is not assignable to parameter of type 'SetStateAction<{ community_id: string; user_id: string; role: "owner" | "moderator" | "member"; joined_at: string; } | null>'.
+21:44:18.482 src/pages/PostPage.tsx(100,43): error TS2345: Argument of type '"Spam or advertising" | "Harassment or bullying" | "Misinformation" | "Off-topic" | "Inappropriate content" | "Other"' is not assignable to parameter of type 'SetStateAction<"Spam or advertising">'.
+21:44:18.483   Type '"Harassment or bullying"' is not assignable to type 'SetStateAction<"Spam or advertising">'.
+21:44:18.483 src/pages/PostPage.tsx(160,17): error TS2345: Argument of type '{}' is not assignable to parameter of type 'SetStateAction<{ id: string; community_id: string; author_id: string; title: string; body: string | null; upvotes: number; reply_count: number; is_deleted: boolean; created_at: string; updated_at: string; author_username: string; author_avatar: string | null; author_avatar_config: { ...; } | null; author_reputation:...'.
+21:44:18.483 src/pages/PostPage.tsx(166,30): error TS2339: Property 'community_id' does not exist on type '{}'.
+21:44:18.484 src/pages/PostPage.tsx(168,50): error TS2345: Argument of type '{}' is not assignable to parameter of type 'SetStateAction<{ id: string; name: string; slug: string; description: string | null; icon_url: string | null; owner_id: string; is_private: boolean; member_count: number; created_at: string; } | null>'.
+21:44:18.484 src/pages/PostPage.tsx(183,53): error TS2339: Property 'id' does not exist on type '{}'.
+21:44:18.485 src/pages/PostPage.tsx(192,15): error TS2322: Type '{ children: never[]; user_has_voted: boolean; }[]' is not assignable to type 'ReplyWithChildren[]'.
+21:44:18.485   Type '{ children: never[]; user_has_voted: boolean; }' is missing the following properties from type 'ReplyWithChildren': id, post_id, author_id, parent_id, and 8 more.
+21:44:18.490 src/pages/PostPage.tsx(195,42): error TS2339: Property 'id' does not exist on type '{}'.
+21:44:18.490 src/pages/Profile.tsx(136,18): error TS2345: Argument of type '{}[]' is not assignable to parameter of type 'SetStateAction<{ id: string; community_id: string; author_id: string; title: string; body: string | null; upvotes: number; reply_count: number; is_deleted: boolean; created_at: string; updated_at: string; author_username: string; author_avatar: string | null; author_avatar_config: { ...; } | null; author_reputation:...'.
+21:44:18.491   Type '{}[]' is not assignable to type '{ id: string; community_id: string; author_id: string; title: string; body: string | null; upvotes: number; reply_count: number; is_deleted: boolean; created_at: string; updated_at: string; author_username: string; author_avatar: string | null; author_avatar_config: { ...; } | null; author_reputation: number; }[]'.
+21:44:18.491     Type '{}' is missing the following properties from type '{ id: string; community_id: string; author_id: string; title: string; body: string | null; upvotes: number; reply_count: number; is_deleted: boolean; created_at: string; updated_at: string; author_username: string; author_avatar: string | null; author_avatar_config: { ...; } | null; author_reputation: number; }': id, community_id, author_id, title, and 10 more.
+21:44:18.509 Error: Command "npm run build" exited with 2
