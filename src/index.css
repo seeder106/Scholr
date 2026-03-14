@@ -1,0 +1,283 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Google Font: Inter ─────────────────────────────────────────────────────
+   Loaded via <link> in index.html — defined here as fallback reference         */
+
+/* ─── Base resets & tokens ───────────────────────────────────────────────── */
+@layer base {
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-background text-text-primary font-sans antialiased;
+    min-height: 100dvh;
+  }
+
+  /* Dark mode body */
+  .dark body,
+  body.dark {
+    @apply bg-dark-bg text-dark-text;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-semibold leading-tight;
+  }
+
+  a {
+    @apply text-primary hover:underline;
+  }
+
+  /* Remove default button styles — we opt-in via components */
+  button {
+    @apply cursor-pointer;
+  }
+
+  /* Accessible focus ring */
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-primary rounded;
+  }
+
+  /* Custom scrollbar (webkit) */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-border rounded-full;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-text-secondary;
+  }
+}
+
+/* ─── Component layer: reusable class utilities ──────────────────────────── */
+@layer components {
+
+  /* ── Buttons ─────────────────────────────────────────────────────────── */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2
+           px-4 py-2 rounded font-medium text-sm
+           transition-colors duration-150
+           focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2
+           disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-primary {
+    @apply btn bg-btn-bg text-white hover:bg-btn-hover active:bg-primary;
+  }
+
+  .btn-secondary {
+    @apply btn bg-white text-primary border border-border
+           hover:bg-gray-50 active:bg-gray-100
+           dark:bg-dark-card dark:text-dark-text dark:border-gray-600
+           dark:hover:bg-gray-700;
+  }
+
+  .btn-ghost {
+    @apply btn bg-transparent text-text-secondary
+           hover:bg-gray-100 hover:text-text-primary
+           dark:hover:bg-gray-700 dark:text-gray-400 dark:hover:text-dark-text;
+  }
+
+  .btn-danger {
+    @apply btn bg-error text-white hover:bg-red-600 active:bg-red-700;
+  }
+
+  .btn-sm {
+    @apply px-3 py-1.5 text-xs;
+  }
+
+  .btn-lg {
+    @apply px-6 py-3 text-base;
+  }
+
+  /* ── Cards ───────────────────────────────────────────────────────────── */
+  .card {
+    @apply bg-card rounded-lg border border-border shadow-card
+           dark:bg-dark-card dark:border-gray-700;
+  }
+
+  .card-hover {
+    @apply card transition-shadow duration-200 hover:shadow-card-hover;
+  }
+
+  /* ── Form inputs ─────────────────────────────────────────────────────── */
+  .input {
+    @apply w-full px-3 py-2 rounded border border-border
+           bg-white text-text-primary text-sm
+           placeholder:text-text-secondary
+           focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent
+           transition duration-150
+           disabled:opacity-50 disabled:bg-gray-50
+           dark:bg-gray-800 dark:border-gray-600 dark:text-dark-text
+           dark:placeholder:text-gray-500 dark:focus:ring-dark-primary;
+  }
+
+  .input-error {
+    @apply border-error focus:ring-error;
+  }
+
+  .label {
+    @apply block text-sm font-medium text-text-primary mb-1
+           dark:text-dark-text;
+  }
+
+  .field-error {
+    @apply text-xs text-error mt-1;
+  }
+
+  /* ── Textarea ────────────────────────────────────────────────────────── */
+  .textarea {
+    @apply input resize-none;
+  }
+
+  /* ── Badges ──────────────────────────────────────────────────────────── */
+  .badge {
+    @apply inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium;
+  }
+
+  .badge-primary {
+    @apply badge bg-blue-100 text-primary dark:bg-blue-900/40 dark:text-blue-300;
+  }
+
+  .badge-success {
+    @apply badge bg-green-100 text-success dark:bg-green-900/40 dark:text-green-300;
+  }
+
+  .badge-warning {
+    @apply badge bg-yellow-100 text-warning dark:bg-yellow-900/40 dark:text-yellow-300;
+  }
+
+  .badge-rep {
+    @apply badge bg-accent/20 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400;
+  }
+
+  /* ── Avatar ──────────────────────────────────────────────────────────── */
+  .avatar {
+    @apply rounded-full object-cover shrink-0 bg-gray-200 dark:bg-gray-700;
+  }
+
+  .avatar-sm  { @apply avatar w-7 h-7 text-sm;  }
+  .avatar-md  { @apply avatar w-9 h-9 text-base; }
+  .avatar-lg  { @apply avatar w-14 h-14 text-2xl; }
+  .avatar-xl  { @apply avatar w-20 h-20 text-3xl; }
+
+  /* Emoji preset avatar wrapper */
+  .avatar-emoji {
+    @apply rounded-full shrink-0 flex items-center justify-center
+           bg-primary/10 dark:bg-primary/20 select-none;
+  }
+
+  /* ── Divider ─────────────────────────────────────────────────────────── */
+  .divider {
+    @apply border-t border-border dark:border-gray-700 my-4;
+  }
+
+  /* ── Page layout shell ───────────────────────────────────────────────── */
+  .page-container {
+    @apply max-w-4xl mx-auto px-4 sm:px-6 py-6;
+  }
+
+  .page-container-wide {
+    @apply max-w-6xl mx-auto px-4 sm:px-6 py-6;
+  }
+
+  /* ── Skeleton loader ─────────────────────────────────────────────────── */
+  .skeleton {
+    @apply bg-gray-200 dark:bg-gray-700 rounded animate-pulse;
+  }
+
+  /* ── Section heading ─────────────────────────────────────────────────── */
+  .section-title {
+    @apply text-lg font-semibold text-text-primary dark:text-dark-text;
+  }
+
+  /* ── Empty state ─────────────────────────────────────────────────────── */
+  .empty-state {
+    @apply flex flex-col items-center justify-center gap-3
+           py-16 text-center text-text-secondary dark:text-gray-400;
+  }
+
+  /* ── Spinner ─────────────────────────────────────────────────────────── */
+  .spinner {
+    @apply w-5 h-5 border-2 border-current border-t-transparent rounded-full animate-spin;
+  }
+
+  /* ── Vote button ─────────────────────────────────────────────────────── */
+  .vote-btn {
+    @apply inline-flex items-center gap-1 px-2 py-1 rounded text-xs font-medium
+           transition-colors duration-150
+           text-text-secondary hover:text-primary hover:bg-blue-50
+           dark:hover:bg-blue-900/20 dark:text-gray-400;
+  }
+
+  .vote-btn-active {
+    @apply text-primary bg-blue-50 dark:bg-blue-900/20 dark:text-dark-primary;
+  }
+
+  /* ── Search input wrapper ────────────────────────────────────────────── */
+  .search-wrapper {
+    @apply relative flex items-center;
+  }
+
+  .search-wrapper .search-icon {
+    @apply absolute left-3 text-text-secondary pointer-events-none;
+  }
+
+  .search-input {
+    @apply input pl-9;
+  }
+}
+
+/* ─── Utility layer: one-off helpers ─────────────────────────────────────── */
+@layer utilities {
+  /* Line clamping */
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* Hide scrollbar but keep scroll */
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+  /* Fade in animation */
+  .animate-fade-in {
+    animation: fadeIn 0.2s ease-in-out;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Slide down animation (mobile menu) */
+  .animate-slide-down {
+    animation: slideDown 0.2s ease-out;
+  }
+
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+}

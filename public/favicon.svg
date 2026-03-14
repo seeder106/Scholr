@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
+  <!-- Background rounded square -->
+  <rect width="32" height="32" rx="8" fill="#1F3A8A"/>
+  <!-- Open book icon (simplified) -->
+  <!-- Left page -->
+  <path d="M7 10C7 9.44772 7.44772 9 8 9H14.5C15.3284 9 16 9.67157 16 10.5V22.5C16 22.5 13.5 22 11 22.5C9.5 22.8333 8 23.5 8 23.5C7.44772 23.5 7 23.0523 7 22.5V10Z" fill="white" fill-opacity="0.9"/>
+  <!-- Right page -->
+  <path d="M25 10C25 9.44772 24.5523 9 24 9H17.5C16.6716 9 16 9.67157 16 10.5V22.5C16 22.5 18.5 22 21 22.5C22.5 22.8333 24 23.5 24 23.5C24.5523 23.5 25 23.0523 25 22.5V10Z" fill="white" fill-opacity="0.7"/>
+  <!-- Spine line -->
+  <line x1="16" y1="10" x2="16" y2="23" stroke="#1F3A8A" stroke-width="1"/>
+  <!-- Left page lines -->
+  <line x1="9.5" y1="13" x2="14" y2="13" stroke="#1F3A8A" stroke-width="1" stroke-opacity="0.3" stroke-linecap="round"/>
+  <line x1="9.5" y1="15.5" x2="14" y2="15.5" stroke="#1F3A8A" stroke-width="1" stroke-opacity="0.3" stroke-linecap="round"/>
+  <line x1="9.5" y1="18" x2="13" y2="18" stroke="#1F3A8A" stroke-width="1" stroke-opacity="0.3" stroke-linecap="round"/>
+  <!-- Right page lines -->
+  <line x1="18" y1="13" x2="22.5" y2="13" stroke="#1F3A8A" stroke-width="1" stroke-opacity="0.2" stroke-linecap="round"/>
+  <line x1="18" y1="15.5" x2="22.5" y2="15.5" stroke="#1F3A8A" stroke-width="1" stroke-opacity="0.2" stroke-linecap="round"/>
+  <line x1="18" y1="18" x2="21.5" y2="18" stroke="#1F3A8A" stroke-width="1" stroke-opacity="0.2" stroke-linecap="round"/>
+  <!-- Star accent (top-right) -->
+  <circle cx="26" cy="6" r="4" fill="#FBBF24"/>
+  <text x="26" y="9" text-anchor="middle" font-size="6" fill="#1F3A8A" font-weight="bold">✦</text>
+</svg>
