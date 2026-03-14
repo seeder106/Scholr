@@ -21,7 +21,7 @@ interface CommentListProps {
 // ─── Report modal ─────────────────────────────────────────────────────────────
 function ReportModal({ replyId, onClose }: { replyId: string; onClose: () => void }) {
   const { user } = useAuth()
-  const [reason, setReason] = useState(REPORT_REASONS[0])
+  const [reason, setReason] = useState<typeof REPORT_REASONS[number]>(REPORT_REASONS[0])
   const [submitting, setSubmitting] = useState(false)
 
   const submit = async () => {

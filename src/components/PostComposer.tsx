@@ -101,6 +101,7 @@ export default function PostComposer({ communityId, onPostCreated }: PostCompose
         updated_at:       raw.updated_at as string,
         author_username:  authorUsername,
         author_avatar:    authorAvatar ?? null,
+        author_avatar_config: (profile.avatar_config as { skin: string; hair: string; outfit: string; accessory: string | null } | null) ?? null,
         author_reputation: authorReputation,
       }
 

@@ -30,12 +30,6 @@ export interface CommunityWithMembership extends CommunityRow {
 export interface ReplyWithChildren extends ReplyWithAuthor {
   children: ReplyWithChildren[]
   user_has_voted: boolean
-  author_avatar_config?: {
-    skin: string
-    hair: string
-    outfit: string
-    accessory: string | null
-  } | null
 }
 
 /** Post enriched with author info + user vote state */

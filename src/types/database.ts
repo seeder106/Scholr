@@ -1,7 +1,3 @@
-// ─── Database shape (mirrors schema.sql exactly) ─────────────────────────────
-// This is a hand-written type file. If you prefer auto-generation run:
-//   npx supabase gen types typescript --project-id YOUR_PROJECT_REF > src/types/database.ts
-
 export type Json =
   | string
   | number
@@ -60,6 +56,7 @@ export interface Database {
           reputation?: number
           updated_at?: string
         }
+        Relationships: []
       }
       communities: {
         Row: {
@@ -91,6 +88,7 @@ export interface Database {
           icon_url?: string | null
           is_private?: boolean
         }
+        Relationships: []
       }
       community_members: {
         Row: {
@@ -108,6 +106,7 @@ export interface Database {
         Update: {
           role?: 'owner' | 'moderator' | 'member'
         }
+        Relationships: []
       }
       posts: {
         Row: {
@@ -140,6 +139,7 @@ export interface Database {
           is_deleted?: boolean
           updated_at?: string
         }
+        Relationships: []
       }
       replies: {
         Row: {
@@ -166,6 +166,7 @@ export interface Database {
           body?: string
           is_deleted?: boolean
         }
+        Relationships: []
       }
       votes: {
         Row: {
@@ -183,6 +184,7 @@ export interface Database {
         Update: {
           value?: number
         }
+        Relationships: []
       }
       reports: {
         Row: {
@@ -206,6 +208,7 @@ export interface Database {
         Update: {
           resolved?: boolean
         }
+        Relationships: []
       }
     }
     Views: {
@@ -231,6 +234,7 @@ export interface Database {
           } | null
           author_reputation: number
         }
+        Relationships: []
       }
       replies_with_authors: {
         Row: {
@@ -252,9 +256,11 @@ export interface Database {
           } | null
           author_reputation: number
         }
+        Relationships: []
       }
     }
     Functions: Record<string, never>
     Enums: Record<string, never>
+    CompositeTypes: Record<string, never>
   }
 }
