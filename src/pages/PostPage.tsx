@@ -123,7 +123,7 @@ function ReportPostModal({ postId, onClose }: { postId: string; onClose: () => v
 export default function PostPage() {
   const { postId } = useParams<{ postId: string }>()
   const navigate = useNavigate()
-  const { user } = useAuth()
+  const { user, loading: authLoading } = useAuth()
 
   const [post,      setPost]      = useState<PostWithAuthor | null>(null)
   const [community, setCommunity] = useState<CommunityRow | null>(null)
@@ -139,7 +139,7 @@ export default function PostPage() {
   const canModerate      = isAuthor || isCommunityOwner
 
   useEffect(() => {
-    if (!postId) return
+    if (!postId || authLoading) return
     let cancelled = false
 
     const load = async () => {
@@ -203,7 +203,7 @@ export default function PostPage() {
 
     load()
     return () => { cancelled = true }
-  }, [postId, user?.id, navigate])
+  }, [postId, user?.id, authLoading, navigate])
 
   const handleDelete = async () => {
     if (!post || !window.confirm('Delete this post? This cannot be undone.')) return
